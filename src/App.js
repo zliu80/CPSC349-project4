@@ -1,22 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
-
-import Proptypes from 'prop-types'
+import { useState } from 'react';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import PocketBase from 'pocketbase';
 
 import Home from './components/Home'
 import About from './components/About'
 import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Dashboard from './components/Dashboard';
 
+
+var auth_username = ""
+async function refresh(){
+const pb = new PocketBase("http://127.0.0.1:8090");
+await pb.collection('users').authRefresh().then((value) =>{
+  auth_username = value.record.username;
+  document.getElementById("auth_username").innerHTML = "Welcome: " + auth_username;
+  console.log(value.record.username)
+});
+
+}
+
+const authData = refresh();
 
 
 function App() {
+ 
+  
   return (
-    
-
       <BrowserRouter>
-
-
 
         <nav className="flex items-center justify-between flex-wrap bg-white p-6">
           <div className="flex items-center flex-shrink-0 text-black mr-6">
@@ -38,9 +51,16 @@ function App() {
 
             <div className="text-sm ">
 
-              <p className="block mt-4 lg:inline-block lg:mt-0 text-black hover:text-indigo-500">
-                <Link to ="/signin">SignIn</Link>
-              </p>
+            {
+              authData==null  ? (<p className="block mt-4 lg:inline-block lg:mt-0 text-black hover:text-indigo-500">
+              <Link to ="/signin">SignIn</Link>
+            </p>):(<p className="block mt-4 lg:inline-block lg:mt-0 text-black hover:text-indigo-500">
+                <p id="auth_username"></p>
+              </p>)
+              
+            }
+
+             
 
 
             </div>
@@ -51,6 +71,8 @@ function App() {
 
           <Route path="/about" element={<About />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
 

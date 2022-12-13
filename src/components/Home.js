@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 
 function Home(){
     return (
@@ -15,18 +15,19 @@ function Home(){
     
   
     
-    <a href="/user/signup"
+    <a
       className="items-center justify-center rounded-full shadow-lg   bg-pink-500 px-8 py-3 text-base font-medium text-white hover:bg-pink-600 md:py-4 md:px-10 md:text-lg">
-      Sign up for an account
+      <Link to="/signup">Sign up for an account</Link>
     </a>
     
 
     
     <div className="ml-5 mt-5 sm:mt-8">
       <div className="mx-auto">
-        <a href="/user/login" className="text-sm text-white underline hover:text-blue-800">
-          Already have an account? Log in
-        </a>
+        <p className="text-sm text-white underline hover:text-blue-800">
+          
+          <Link to="/signin">Already have an account? Log in</Link>
+        </p>
       </div>
     </div>
    
