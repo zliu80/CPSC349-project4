@@ -19,3 +19,11 @@ React + PocketBase + Tailwindcss
 3. Start the react project by
 
         npm start
+
+# Libraries Used
+
+  npm install pocketbase
+  
+  npm install --save react-router-dom
+  
+  npm install react-hook-form
