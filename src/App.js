@@ -10,20 +10,25 @@ import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import Dashboard from './components/Dashboard';
 
-
-var auth_username = ""
-async function refresh(){
 const pb = new PocketBase("http://127.0.0.1:8090");
-await pb.collection('users').authRefresh().then((value) =>{
-  auth_username = value.record.username;
-  document.getElementById("auth_username").innerHTML = "Welcome: " + auth_username;
-  console.log(value.record.username)
-});
+console.log(pb.authStore.model)
+async function refresh(){
+ 
+  await pb.collection('users').authRefresh().then((value) =>{
+  
+  }).catch((error) =>{
+    console.log("Fail to fetch the authentificated user from pocketbase.");
+  });
 
 }
 
-const authData = refresh();
 
+
+async function signout(){
+  alert("you have signed out.");
+  await pb.authStore.clear();
+  window.location.reload();
+}
 
 function App() {
  
@@ -50,18 +55,21 @@ function App() {
 
 
             <div className="text-sm ">
-
+            <p id='auth_username' className="block mt-4 lg:inline-block lg:mt-0 text-black hover:text-indigo-500">
             {
-              authData==null  ? (<p className="block mt-4 lg:inline-block lg:mt-0 text-black hover:text-indigo-500">
+              !pb.authStore.isValid ?(
               <Link to ="/signin">SignIn</Link>
-            </p>):(<p className="block mt-4 lg:inline-block lg:mt-0 text-black hover:text-indigo-500">
-                <p id="auth_username"></p>
-              </p>)
-              
+              ) : ("Welcome: "+pb.authStore.model.username)
             }
-
-             
-
+            
+            </p>
+            <p className="block ml-10 mt-4 lg:inline-block lg:mt-0 text-black hover:text-indigo-500">
+            {
+              pb.authStore.isValid ?(
+                <p className='underline' onClick={signout}>Sign out</p>
+                ) : ("")
+            } 
+            </p>
 
             </div>
           </div>

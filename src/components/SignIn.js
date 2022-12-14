@@ -3,51 +3,50 @@ import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import { Link } from 'react-router-dom';
 
-function handleAuth(event) {
-    event.preventDefault();
-    auth();
-  }
+const pb = new PocketBase("http://127.0.0.1:8090");
 
   async function auth(username,password) {
-    const pb = new PocketBase("http://127.0.0.1:8090");
-    try {
-      const authData = await pb.collection('users').authWithPassword(username, password)
-      console.log(authData);
-      return authData;
-    } catch (error) {
-        if(error.data!=null){
-            alert(error.data.message);
-        } else{
-            alert("Login fail");
-        }
-        console.log(error);
-    }
+    
+    return await pb.collection('users').authWithPassword(username, password);
+    
     
   }
 
 function SignIn(){
 
-    const Navigate = useNavigate();
-const {
-    register, handleSubmit, formState:{errors},
-} = useForm({
-    defaultValues:{
-        username: '',
-        password: '',
+    
+    const {
+        register, handleSubmit, formState:{errors},
+        } = useForm({
+         defaultValues:{
+            username: '',
+            password: '',
         
-    },
-    mode: 'onBlur'
-});
+            },
+        mode: 'onBlur'
+        });
 
-const onSubmit = (data) => {
-    const USERNAME = data.username;
-    const PASSWORD = data.password;
-    const result = auth(USERNAME, PASSWORD);
-    if(result!=null){
-        Navigate("/dashboard")
+    const onSubmit = (data) => {
+        const USERNAME = data.username;
+        const PASSWORD = data.password;
+        auth(USERNAME, PASSWORD).then((data) =>{
+            console.log(data);
+
+            if(data!=null){
+                window.location.replace("/dashboard")
+            }
+            return data;
+          }).catch((error) =>{
+            if(error.message!=null){
+                alert(error.message);
+            } else{
+                alert("Something went wrong. Contact the author.");
+            }
+            console.log(error);
+          });
+
+            
     }
-        
-}
 
     return (
         <div className="w-screen h-screen flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">

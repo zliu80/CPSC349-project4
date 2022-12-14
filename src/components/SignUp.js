@@ -19,25 +19,13 @@ function handleAuth(event) {
         "name": name
     };
     const pb = new PocketBase("http://127.0.0.1:8090");
-    try {
-      const authData = await pb.collection('users').create(data);
-      console.log(authData);
 
-      return authData;
-    } catch (error) {
-        if(error.data!=null){
-            alert(error.data.message);
-        } else{
-            alert("Register fail");
-        }
-        console.log(error);
-      
-    }
+    return await pb.collection('users').create(data);
     
   }
 
 function SignUp(){
-    const Navigate = useNavigate();
+   
     const {
         register, handleSubmit, formState:{errors},
     } = useForm({
@@ -51,8 +39,17 @@ function SignUp(){
     });
     
     const onSubmit = (data) => {
-        const result = userSignUp(data.username, data.password, data.email, data.name);
-        
+        userSignUp(data.username, data.password, data.email, data.name).then((value) =>{
+            console.log(value);
+            window.location.replace("/dashboard")
+          }).catch((error) =>{
+            if(error.message!=null){
+                alert(error.message);
+            } else{
+                alert("Something went wrong. Contact the author.");
+            }
+            console.log(error);
+          });
         
     }
 

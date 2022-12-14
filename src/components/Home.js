@@ -1,4 +1,10 @@
 import { Link } from 'react-router-dom';
+import PocketBase from 'pocketbase';
+
+
+
+
+const pb = new PocketBase("http://127.0.0.1:8090");
 
 function Home(){
     return (
@@ -13,21 +19,30 @@ function Home(){
     </h3>
 
     
-  
-    
-    <a
+  {
+     !pb.authStore.isValid ?(    <a
       className="items-center justify-center rounded-full shadow-lg   bg-pink-500 px-8 py-3 text-base font-medium text-white hover:bg-pink-600 md:py-4 md:px-10 md:text-lg">
       <Link to="/signup">Sign up for an account</Link>
-    </a>
+    </a>):(    <a
+      className="items-center justify-center rounded-full shadow-lg   bg-pink-500 px-8 py-3 text-base font-medium text-white hover:bg-pink-600 md:py-4 md:px-10 md:text-lg">
+      <Link to="/dashboard">Go to your dashboard</Link>
+    </a>)
+
+  }
+    
     
 
     
     <div className="ml-5 mt-5 sm:mt-8">
       <div className="mx-auto">
-        <p className="text-sm text-white underline hover:text-blue-800">
+        {
+          !pb.authStore.isValid ?(<p className="text-sm text-white underline hover:text-blue-800">
           
           <Link to="/signin">Already have an account? Log in</Link>
-        </p>
+        </p>):("")
+
+        }
+        
       </div>
     </div>
    
@@ -46,7 +61,7 @@ function Home(){
       <p className="text-gray-600 mb-8">Keep important information at hand - your notes will be saved automatically on the browser.</p>
     </div>
     <div className="w-full md:w-1/2 shadow-2xl">
-      <img src="/assets/images/screentshot.png" alt="work anywhere" />
+      <img src="images/screentshot.png" alt="work anywhere" />
     </div>
   </div>
 
