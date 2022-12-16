@@ -1,9 +1,9 @@
 # CPSC349-project4
 
 Group Members: 
-Moses Merugu
-Thomas Wood
-Zhiqiang Liu 
+Moses Merugu,
+Thomas Wood,
+Zhiqiang Liu, 
 Jahnvi Panchal
 
 React + PocketBase + Tailwindcss
