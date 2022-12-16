@@ -9,8 +9,8 @@ class Center extends React.Component {
         this.props.doNoteClick(index);
     }
 
-    doAddNoteClick(bookId){
-        this.props.doAddNoteClick(bookId);
+    doAddNoteClick(){
+        this.props.doAddNoteClick();
     }
 
     render() {

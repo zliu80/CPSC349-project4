@@ -45,6 +45,11 @@ async function signout(){
 
 class App extends React.Component{
 
+
+  signout(){
+    signout()
+  }
+
 render() {
  
   
@@ -152,18 +157,18 @@ render() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
+                          <p
+                            onClick={signout}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Sign out
-                          </a>
+                          </p>
                         )}
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>
-                <span className='ml-5 text-white'>{pb.authStore.model.username}</span>
+                <span className='ml-5 text-white'>{pb.authStore.model ==null ? "":pb.authStore.model.username}</span>
               </div>
             </div>
           </div>
