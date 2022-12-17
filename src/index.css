@@ -14,3 +14,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@layer components {
+  .about-card {
+    @apply m-8 block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700
+  }
+
+  .about-name {
+    @apply mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white
+  }
+
+  .about-gh {
+    @apply font-normal text-gray-700 dark:text-gray-400
+  }
+}
