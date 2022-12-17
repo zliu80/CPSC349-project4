@@ -41,7 +41,9 @@ function SignUp(){
     const onSubmit = (data) => {
         userSignUp(data.username, data.password, data.email, data.name).then((value) =>{
             console.log(value);
-            window.location.replace("/dashboard")
+            alert("Sign up success, you may sign in")
+            window.location.replace("/signin")
+            
           }).catch((error) =>{
             if(error.message!=null){
                 alert(error.message);

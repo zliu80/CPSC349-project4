@@ -54,7 +54,12 @@ class Dashboard extends React.Component{
 
   componentDidMount(){
 
-
+    if(pb.authStore.model==null){
+      alert("You have to log in first")
+      window.location.replace("/")
+      
+      return
+    } 
 
     getNoteBooks().then((r1)=>{
       console.log(r1)
@@ -136,6 +141,7 @@ class Dashboard extends React.Component{
     });
 
   }
+  
 
 
 

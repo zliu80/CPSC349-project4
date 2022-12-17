@@ -35,6 +35,7 @@ async function refresh(){
 
 }
 
+refresh()
 
 
 async function signout(){
@@ -96,6 +97,7 @@ render() {
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
+                       
                         <Link to={item.href}>{item.name}</Link>
                         
                       </p>
