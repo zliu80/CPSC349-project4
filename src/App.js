@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState, Fragment } from 'react';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link, useLocation } from 'react-router-dom';
 import PocketBase from 'pocketbase';
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, BellIcon, XMarkIcon} from '@heroicons/react/24/outline'
@@ -15,11 +15,17 @@ import Dashboard from './components/Dashboard';
 const pb = new PocketBase("http://127.0.0.1:8090");
 
 const navigation = [
-  {name:'Home', href:'/', current:true},
+  {name:'Home', href:'/', current:false},
   {name:'Dashboard', href:'/dashboard', current:false},
   {name:'About us', href:'/about', current:false}
   
 ]
+
+const pathname = window.location.pathname
+
+{navigation.map((item) => (
+  pathname === item.href ? item.current = true : item.current = false
+))}
 
 function classNames(...classes){
   return classes.filter(Boolean).join(' ')
@@ -35,6 +41,7 @@ async function refresh(){
 
 }
 
+console.log(pb.authStore.model)
 refresh()
 
 
@@ -45,7 +52,6 @@ async function signout(){
 }
 
 class App extends React.Component{
-
 
   signout(){
     signout()
@@ -88,12 +94,11 @@ render() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <p
+                      <p onClick={() => window.location.reload(false)}
                         key={item.name}
-                      
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
+                          'px-3 py-2 rounded-md text-sm font-medium',
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -101,6 +106,7 @@ render() {
                         <Link to={item.href}>{item.name}</Link>
                         
                       </p>
+                      
                     ))}
                   </div>
                 </div>
@@ -131,15 +137,13 @@ render() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-
-                      
                       <Menu.Item>
                         {({ active }) => (
                           <p
-                            onClick={signout}
+                            onClick={pb.authStore.model == null ? active =>  window.location.href='/signin' : signout}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Sign out
+                            {pb.authStore.model ==null ? 'Sign in' : 'Sign out'}
                           </p>
                         )}
                       </Menu.Item>
