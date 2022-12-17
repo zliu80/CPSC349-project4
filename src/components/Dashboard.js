@@ -94,11 +94,6 @@ class Dashboard extends React.Component{
       })
 
     }).catch((error) =>{
-      if(error.message!=null){
-          alert(error.message);
-      } else{
-          alert("Something went wrong. Contact the author.");
-      }
       console.log(error);
     });
   }
