@@ -4,13 +4,12 @@ import Right from "./Right";
 import React from "react";
 import PocketBase from 'pocketbase';
 
-
 const pb = new PocketBase("http://127.0.0.1:8090");
 
 async function getNoteBooks() {
   
   let result = await pb.autoCancellation(false).collection('notebooks').getList(1, 50, /* batch size */ {
-    sort: '-created', filter:'userId="' + pb.authStore.model.id+'"'
+     filter:'userId="' + pb.authStore.model.id+'"'
 });
   return result
 }
@@ -56,12 +55,15 @@ class Dashboard extends React.Component{
 
   constructor(props){
     super(props);
-    this.state = {notebooks:[], currentIndex:0, currentNotebook:null, notes:[], noteIndex:0, currentNode:null}
+    this.state = {notebooks:[], currentIndex:0, currentNotebook:null, notes:[], noteIndex:0, currentNode:null, setOpen:false}
   }
 
 
 
+
   componentDidMount(){
+
+    
 
     if(pb.authStore.model==null){
       alert("You have to log in first")
@@ -101,7 +103,9 @@ class Dashboard extends React.Component{
     });
   }
 
-
+  handleOpen(){
+    this.state.setOpen=false
+  } 
 
   doNoteClick(index){
     const note = this.state.notes[index];
@@ -185,13 +189,12 @@ render() {
 
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8"></div>
 
-          
-            
 
     <div className="flex h-full">
           <Left notebooks={this.state.notebooks} 
           currentIndex={this.state.currentIndex} 
-          doNotebookClick={(index)=>{this.doNotebookClick(index)}} doAddNotebookClick={()=>{this.doAddNotebookClick()}}/>
+          doNotebookClick={(index)=>{this.doNotebookClick(index)}}
+          doAddNotebookClick={()=>{this.doAddNotebookClick()}}/>
           <Center currentNotebook={this.state.currentNotebook} notes={this.state.notes} notebooks={this.state.notebooks} 
           currentIndex={this.state.currentIndex} doNoteClick={(index) => {this.doNoteClick(index)}} 
           doAddNoteClick={() =>{this.doAddNoteClick()}} doNotebookTitleChange={(e) => {this.doNotebookTitleChange(e)}}/>

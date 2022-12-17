@@ -33,13 +33,15 @@ class Center extends React.Component {
                                 this.props.notes.map((note, index) => {
                                     return (
                                         <li key={note.id} onClick={() =>{this.doNoteClick(index)}}>
-                                            <div className="mb-3 w-auto">
+                                            <div className="w-auto">
                                                 <div className="px-6 py-2 hover:bg-gray-200 max-h-24">
                                                     <p className="truncate">{note.title}</p>
                                                 </div>
                                                 
                                             </div>
+                                            <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
                                         </li>
+                                        
                                     )
                                 })
                             }
