@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, Fragment } from 'react';
+import React, { useRef, useState, Fragment } from 'react';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import PocketBase from 'pocketbase';
 import {Disclosure, Menu, Transition} from '@headlessui/react'
@@ -20,6 +20,151 @@ const navigation = [
   {name:'About us', href:'/about', current:false}
   
 ]
+
+
+
+
+
+class NavBarMenu extends React.Component {
+  
+ 
+  constructor(props) {
+    super(props);
+    // this.onClick = this.onClick.bind(this); }
+    
+      this.state = {
+        nav0: false,
+        nav1: false,
+        nav2: false
+      };
+      
+      this.handleClick = this.handleClick.bind(this);
+    }
+    
+    updateButton(item) {
+    
+    console.log("logging function input");
+    console.log(item);
+    /*
+      this.setState({
+        if (item.name == 'Home') {
+          nav0: true;
+          nav1: false;
+          nav2: false;
+        } else if (item.name == 'Dashboard') {
+          nav0: false;
+          nav1: true;
+          nav2: false;
+        } else if (item.name == 'About Us') {
+          nav0: false;
+          nav1: false;
+          nav2: true;
+        }
+      })
+      */
+    }
+   
+ /*   
+  onClick(e, item) {
+    console.log(this.name);
+  
+    this.setState({
+    nav0
+    });
+ 
+  };
+  
+     */
+  
+  handleClick () {
+  /*
+    this.setState(prevState => ({      
+      nav0: !prevState.nav0    
+    }));  
+    */
+    
+    this.setState({nav0: false, nav1: false, nav2: false});
+  }
+
+
+  render() {
+  
+    let button_class_0 = this.state.nav0 ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white';
+    /*
+    let button_class_1 = this.state.nav1 ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white';
+    let button_class_2 = this.state.nav2 ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white';
+    
+    
+    let buttonStates = [button_class_0, button_class_1, button_class_2];
+    
+    for (let i = 0; i < 3; i++) {
+      navigation[i].current = buttonStates[i];
+    }
+        
+    */
+    
+        navigation[0].current = button_class_0
+  
+    return (
+      <div className="flex space-x-4">
+      
+      
+      
+      
+      
+
+                    {navigation.map((item) => (
+                      <p id="navButtonBar" 
+                        key={item.name}
+                        
+                        
+                      
+                        className={classNames(
+                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'px-3 py-2 rounded-md text-sm font-medium'
+                        )}
+
+                        aria-current={item.current ? 'page' : undefined}
+                        
+                        
+                        
+                      >
+
+                      
+                        
+                        <button onClick={this.handleClick}>                        
+                      
+                          <Link to={item.href}>{item.name}</Link>
+                                               
+                        </button>
+                        
+                      </p>
+                    ))}
+                  </div>
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+const changeStyle = (item) => {    
+    for (let i = 0; i < 3; i++) {
+      navigation[i].current = 'false';
+    }
+    
+    item.current = 'true';
+
+    console.log("nav button clicked");
+  };
+
+
 
 function classNames(...classes){
   return classes.filter(Boolean).join(' ')
@@ -52,6 +197,8 @@ class App extends React.Component{
   }
 
 render() {
+
+
  
   
   return (
@@ -63,7 +210,7 @@ render() {
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">                 
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -86,23 +233,11 @@ render() {
                   />
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <p
-                        key={item.name}
-                      
-                        className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                       
-                        <Link to={item.href}>{item.name}</Link>
-                        
-                      </p>
-                    ))}
-                  </div>
+                
+                
+                  <NavBarMenu />
+                  
+                  
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
