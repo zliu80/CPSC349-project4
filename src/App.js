@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState, Fragment } from 'react';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Link, useLocation } from 'react-router-dom';
 import PocketBase from 'pocketbase';
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, BellIcon, XMarkIcon} from '@heroicons/react/24/outline'
@@ -15,11 +15,17 @@ import Dashboard from './components/Dashboard';
 const pb = new PocketBase("http://127.0.0.1:8090");
 
 const navigation = [
-  {name:'Home', href:'/', current:true},
+  {name:'Home', href:'/', current:false},
   {name:'Dashboard', href:'/dashboard', current:false},
   {name:'About us', href:'/about', current:false}
   
 ]
+
+const pathname = window.location.pathname
+
+{navigation.map((item) => (
+  pathname === item.href ? item.current = true : item.current = false
+))}
 
 function classNames(...classes){
   return classes.filter(Boolean).join(' ')
@@ -45,7 +51,6 @@ async function signout(){
 }
 
 class App extends React.Component{
-
 
   signout(){
     signout()
@@ -90,10 +95,9 @@ render() {
                     {navigation.map((item) => (
                       <p
                         key={item.name}
-                      
                         className={classNames(
                           item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
+                          'px-3 py-2 rounded-md text-sm font-medium',
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
@@ -101,6 +105,7 @@ render() {
                         <Link to={item.href}>{item.name}</Link>
                         
                       </p>
+                      
                     ))}
                   </div>
                 </div>
