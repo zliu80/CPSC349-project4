@@ -42,12 +42,21 @@ async function addNote(bookId){
   return record;
 }
 
+async function updateNotebook(name, id){
+  const data = {
+    "name": name,
+  };
+
+  const record = await pb.collection('notebooks').update(id, data);
+  return record;
+}
+
 
 class Dashboard extends React.Component{
 
   constructor(props){
     super(props);
-    this.state = {notebooks:[], currentIndex:0, notes:[], noteIndex:0, currentNode:null}
+    this.state = {notebooks:[], currentIndex:0, currentNotebook:null, notes:[], noteIndex:0, currentNode:null}
   }
 
 
@@ -67,9 +76,11 @@ class Dashboard extends React.Component{
       this.state.notebooks = r1.items
       this.setState({notebooks:r1.items})
 
-      const notebook = this.state.notebooks[this.state.currentIndex]
-      console.log(notebook)
-      getNotes(notebook.id).then((r2)=>{
+      const nb = this.state.notebooks[this.state.currentIndex]
+      this.state.currentNotebook = nb
+      this.setState({currentNotebook:nb})
+      console.log(nb)
+      getNotes(nb.id).then((r2)=>{
         
         this.state.notes = r2.items
         this.setState({notes:r2.items})
@@ -105,6 +116,8 @@ class Dashboard extends React.Component{
     this.state.currentIndex = index
     this.setState({currentIndex:index})
     const notebook = this.state.notebooks[index]
+    this.state.currentNotebook = notebook
+    this.setState({currentNotebook:notebook})
     getNotes(notebook.id).then((r2)=>{
         
       this.state.notes = r2.items
@@ -143,7 +156,20 @@ class Dashboard extends React.Component{
   }
   
 
+  doNotebookTitleChange(e){
+    let noteboook = this.state.currentNotebook
+    noteboook.name = e.target.value
+    
+    this.state.currentNotebook = noteboook
+    this.setState({currentNotebook: noteboook})
 
+    updateNotebook(noteboook.name, noteboook.id).then((r) => {
+
+    }).catch((error)=>{
+      console.log("unable to update notebook.");
+    });
+    
+  }
 
 render() {
 
@@ -166,9 +192,11 @@ render() {
           <Left notebooks={this.state.notebooks} 
           currentIndex={this.state.currentIndex} 
           doNotebookClick={(index)=>{this.doNotebookClick(index)}} doAddNotebookClick={()=>{this.doAddNotebookClick()}}/>
-          <Center notes={this.state.notes} notebooks={this.state.notebooks} currentIndex={this.state.currentIndex} doNoteClick={(index) => {this.doNoteClick(index)}} doAddNoteClick={() =>{this.doAddNoteClick()}}/>
+          <Center currentNotebook={this.state.currentNotebook} notes={this.state.notes} notebooks={this.state.notebooks} 
+          currentIndex={this.state.currentIndex} doNoteClick={(index) => {this.doNoteClick(index)}} 
+          doAddNoteClick={() =>{this.doAddNoteClick()}} doNotebookTitleChange={(e) => {this.doNotebookTitleChange(e)}}/>
           {this.state.currentNode?
-          <Right currentNode={this.state.currentNode} />:null}
+          <Right currentNode={this.state.currentNode} notes={this.state.notes}/>:null}
       </div>
       </div>
   )
