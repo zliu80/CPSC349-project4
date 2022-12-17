@@ -4,8 +4,8 @@ function About(){
 
 <div className="grid grid-cols-4 w-screen h-screen flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
 <div  className="about-card">
-    <h5 className="about-name">xxxxxxx</h5>
-    <a  href="#" className="about-gh">GitHub</a>
+    <h5 className="about-name">Thomas Wood</h5>
+    <a  href="https://github.com/woodthomas98" className="about-gh">GitHub</a>
 </div>
 <div  className="about-card">
     <h5 className="about-name">Moses Merugu</h5>
