@@ -26,10 +26,11 @@ React + PocketBase + Tailwindcss
 
         npm start
 
-# Libraries Used
+# Tested account
 
-  npm install pocketbase
-  
-  npm install --save react-router-dom
-  
-  npm install react-hook-form
+  username:zliu80
+  password:123456789
+
+<img width="1074" alt="image" src="https://user-images.githubusercontent.com/98377452/208280906-183c0236-f55f-4d46-94f9-97f56171662e.png">
+
+
