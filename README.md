@@ -18,11 +18,8 @@ React + PocketBase + Tailwindcss
         
   to install the libararies.
 
-2. Start the PocketBase server under the project root folder.
-
-        ./pocketbase serve
         
-3. Start the react project by
+2. Start the react project by
 
         npm start
 
